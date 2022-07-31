@@ -2,9 +2,9 @@
 #include <vector>
 #include <math.h>
 #include <engine.hpp>
-#include <SFML/Graphics.hpp>
 
-#define M_PI 3.141592653589793238463
+#include <SFML/Graphics.hpp>
+const float M_PI = PIlib;
 
 using namespace std;
 
@@ -57,28 +57,50 @@ int main() {
     cout << "How many planets do you want? ";
     cin >> planetAmt;
 
-    sf::RenderWindow window(sf::VideoMode(screenDimensions[0], screenDimensions[1]), "OggyP Gravity Sim!");
+    sf::RenderWindow window(sf::VideoMode(screenDimensions[0], screenDimensions[1]), "Planetary Simulation");
     window.setFramerateLimit(frameCap);
     sf::CircleShape planetShape(100.f);
     planetShape.setFillColor(sf::Color::Red);
     sf::CircleShape massRadius(100.f);
     massRadius.setFillColor(sf::Color::White);
+    sf::CircleShape Sun(100.0f);
     sf::VertexArray vectorDraw(sf::LinesStrip, 2);
     sf::RectangleShape fadeRect;
     fadeRect.setSize(sf::Vector2f(screenDimensions[0], screenDimensions[1]));
     fadeRect.setFillColor(sf::Color(0, 0, 0, 10));
     fadeRect.setPosition(sf::Vector2f(0, 0));
+    double mass_array[] = { 0.330,	4.87,	5.97,	0.073	,0.642	,1898,	568,	86.8	,102,	0.0130 * 1000000 };
+    /*vector <sun> suns;
+
+    sun sun1;
+    sun1.cordinates[0] = screenDimensions[0] * pixelToSize / 2.0;
+    sun1.cordinates[1] = screenDimensions[1] * pixelToSize / 2.0;
+    sun1.mass = 1.989 * pow(10, 30);
+    suns.push_back(sun1);*/
+
 
     vector <planet> planets;
     for (int i = 0; i < planetAmt; i++) {
         planet currentPlanet;
         largestPlanetNum++;
         currentPlanet.planetID = i;
-        currentPlanet.cordinates[0] = rand() % screenDimensions[0] * pixelToSize;
-        currentPlanet.cordinates[1] = rand() % screenDimensions[1] * pixelToSize;
-        currentPlanet.mass = (rand() % 49 + 1) * pow(10, 24); // 1 to 100 * 10^24 | Earth is 5.9722 * 10^24
+        if (i < 8) {
+            currentPlanet.cordinates[0] = rand() % screenDimensions[0] * pixelToSize;
+            currentPlanet.cordinates[1] = rand() % screenDimensions[1] * pixelToSize;
+        }
+        else
+        {
+            currentPlanet.cordinates[0] = screenDimensions[0] * pixelToSize / 2.0;
+            currentPlanet.cordinates[1] = screenDimensions[1] * pixelToSize / 2.0;
+        }
+        currentPlanet.mass = mass_array[i] * pow(10, 24);
+        //(rand() % 49 + 1) * pow(10, 24); // 1 to 100 * 10^24 | Earth is 5.9722 * 10^24
         planets.push_back(currentPlanet);
+        std::cout << planets[i].mass << std::endl;
+
+
     }
+
 
     cout << largestPlanetNum << endl;
 
@@ -108,12 +130,13 @@ int main() {
                 planet newPlanet;
                 newPlanet.planetID = largestPlanetNum;
                 largestPlanetNum++;
+                //note: make it dynamic
                 newPlanet.mass = 1 * pow(10, 24);
                 newPlanet.cordinates[0] = mouseCord[0] * pixelToSize;
                 newPlanet.cordinates[1] = mouseCord[1] * pixelToSize;
                 while (mouseBtns[0]) {
                     window.clear();
-
+                    //why is frameCap
                     newPlanet.mass += newPlanet.mass / frameCap;
                     double newPlanetRadius;
                     double actualRadius;
@@ -121,6 +144,7 @@ int main() {
                     if (newPlanet.customRadius != 0) {
                         newPlanetRadius = newPlanet.customRadius;
                         customRadius = true;
+                        //denisty dynamic
                         actualRadius = massToRadius(newPlanet.mass);
                     }
                     else {
@@ -219,6 +243,7 @@ int main() {
                     movementVector vectorToAdd = getVectorFromForce(currentPlanet.mass, gravitationalForce, vectorOfPlanets.getDirection());
                     currentPlanet.vector.x += vectorToAdd.x;
                     currentPlanet.vector.y += vectorToAdd.y;
+
                     if (currentPlanetRadius + planetToCheckRadius > vectorOfPlanets.getMagnitude() - vectorToAdd.getMagnitude()) {
                         if (currentPlanet.mass > planetToCheck.mass) {
                             currentPlanet.mass += planetToCheck.mass;
@@ -227,9 +252,17 @@ int main() {
                     }
                 }
             }
-            for (auto& currentPlanet : planets) {
+            for (auto& currentPlanet : planets)
+            {
+                if (currentPlanet.mass == planets.at(8).mass)
+                {
+                    continue;
+
+                }
                 currentPlanet.move();
             }
+
+
             currentPhysicsUpdate++;
         }
 
