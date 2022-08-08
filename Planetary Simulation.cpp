@@ -49,7 +49,7 @@ int main() {
     long int currentFrame = 0;
     long int currentPhysicsUpdate = 0;
 
-    const int physicsUpdatesPerFrame = 40;
+    const int physicsUpdatesPerFrame = 10;
 
     int largestPlanetNum = 0;
 
@@ -69,7 +69,7 @@ int main() {
     fadeRect.setSize(sf::Vector2f(screenDimensions[0], screenDimensions[1]));
     fadeRect.setFillColor(sf::Color(0, 0, 0, 10));
     fadeRect.setPosition(sf::Vector2f(0, 0));
-    double mass_array[] = { 0.330,	4.87,	5.97,	0.073	,0.642	,1898,	568,	86.8	,102,	0.0130 * 1000000 };
+    double mass_array[] = { 0.330,	4.87,	5.97,	0.073	,0.642	,1898,	568,	86.8	,102,	0.0130 * 1000000.0 };
     /*vector <sun> suns;
 
     sun sun1;
@@ -84,15 +84,15 @@ int main() {
         planet currentPlanet;
         largestPlanetNum++;
         currentPlanet.planetID = i;
-        if (i < 8) {
+        {
             currentPlanet.cordinates[0] = rand() % screenDimensions[0] * pixelToSize;
             currentPlanet.cordinates[1] = rand() % screenDimensions[1] * pixelToSize;
         }
-        else
+        /*
         {
             currentPlanet.cordinates[0] = screenDimensions[0] * pixelToSize / 2.0;
             currentPlanet.cordinates[1] = screenDimensions[1] * pixelToSize / 2.0;
-        }
+        }*/
         currentPlanet.mass = mass_array[i] * pow(10, 24);
         //(rand() % 49 + 1) * pow(10, 24); // 1 to 100 * 10^24 | Earth is 5.9722 * 10^24
         planets.push_back(currentPlanet);
@@ -243,7 +243,11 @@ int main() {
                     movementVector vectorToAdd = getVectorFromForce(currentPlanet.mass, gravitationalForce, vectorOfPlanets.getDirection());
                     currentPlanet.vector.x += vectorToAdd.x;
                     currentPlanet.vector.y += vectorToAdd.y;
-
+                    /*std::cout << "PLANET ID : " << currentPlanet.planetID << std::endl;
+                    std::cout << "VELOCITY X: " << vectorToAdd.x << std::endl;
+                    std::cout << "VELOCITY Y: " << vectorToAdd.y << std::endl;
+                    std::cout << "VELOCITY Added : " << currentPlanet.vector.y << std::endl;
+                    */
                     if (currentPlanetRadius + planetToCheckRadius > vectorOfPlanets.getMagnitude() - vectorToAdd.getMagnitude()) {
                         if (currentPlanet.mass > planetToCheck.mass) {
                             currentPlanet.mass += planetToCheck.mass;
@@ -254,11 +258,7 @@ int main() {
             }
             for (auto& currentPlanet : planets)
             {
-                if (currentPlanet.mass == planets.at(8).mass)
-                {
-                    continue;
-
-                }
+                
                 currentPlanet.move();
             }
 
@@ -282,7 +282,7 @@ int main() {
             planetShape.setPosition(sf::Vector2f(currentPlanet.cordinates[0] / pixelToSize - currentPlanetRadius / pixelToSize, currentPlanet.cordinates[1] / pixelToSize - currentPlanetRadius / pixelToSize));
             window.draw(planetShape);
         }
-
+        
         window.display();
         currentFrame++;
     }

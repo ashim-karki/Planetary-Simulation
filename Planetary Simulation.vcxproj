@@ -153,6 +153,9 @@
   <ItemGroup>
     <ClCompile Include="Planetary Simulation.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\OneDrive\Desktop\PlanetarySims\lib.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
