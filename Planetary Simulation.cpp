@@ -57,7 +57,7 @@ int main() {
     cout << "How many planets do you want? ";
     cin >> planetAmt;
 
-    sf::RenderWindow window(sf::VideoMode(screenDimensions[0], screenDimensions[1]), "OggyP Gravity Sim!");
+    sf::RenderWindow window(sf::VideoMode(screenDimensions[0], screenDimensions[1]), "Planetary Simulation");
     window.setFramerateLimit(frameCap);
     sf::CircleShape planetShape(100.f);
     planetShape.setFillColor(sf::Color::Red);
