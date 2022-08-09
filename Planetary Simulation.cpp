@@ -4,34 +4,34 @@
 #include <engine.hpp>
 #include <SFML/Graphics.hpp>
 
-#define M_PI 3.141592653589793238463
+#define pi 3.141592653589793238463
 
 using namespace std;
 
-long double calculateGravitationalForce(double mass1, double mass2, double distance) {
+long double GForce(double mass1, double mass2, double distance) {
     const double GravitationalConstant = 6.674 * pow(10.0, -11);
     const double force = GravitationalConstant * (mass1 * mass2 / pow(distance, 2));
     return force;
 }
 
-movementVector vectorFromPlanets(planet planet1, planet planet2) {
+movementVector relativePlanetPos(planet planet1, planet planet2) {
     movementVector newVector;
     newVector.x = planet2.cordinates[0] - planet1.cordinates[0];
     newVector.y = planet2.cordinates[1] - planet1.cordinates[1];
     return newVector;
 }
 
-movementVector getVectorFromForce(double mass, long double force, double direction) {
+movementVector newPosition(double mass, long double force, double direction) {
     movementVector newVector;
-    double magnitude = (force / mass) / 100000 * 86400;
-    newVector.setVector(direction, magnitude);
+    double acceleration = (force / mass) / 100000 * 86400;
+    newVector.updatePos(direction, acceleration);
     return newVector;
 }
 
 double massToRadius(double mass) {
     // 5514 is the Mean density (kg/m3) of earth.
     // formula for radius of sphere from volume
-    double radius = cbrt(3 * (mass / (5514)) / (3 * M_PI));
+    double radius = cbrt(3 * (mass / (5514)) / (3 * pi));
     return radius;
 }
 
@@ -214,12 +214,12 @@ int main() {
                 for (auto& planetToCheck : planets) {
                     if (planetToCheck.planetID == currentPlanet.planetID || planetToCheck.isAlive == false) continue; // do not calculate for self
                     const float planetToCheckRadius = massToRadius(planetToCheck.mass);
-                    movementVector vectorOfPlanets = vectorFromPlanets(currentPlanet, planetToCheck);
-                    const double gravitationalForce = calculateGravitationalForce(currentPlanet.mass, planetToCheck.mass, vectorOfPlanets.getMagnitude());
-                    movementVector vectorToAdd = getVectorFromForce(currentPlanet.mass, gravitationalForce, vectorOfPlanets.getDirection());
+                    movementVector vectorOfPlanets = relativePlanetPos(currentPlanet, planetToCheck);
+                    const double gravitationalForce = GForce(currentPlanet.mass, planetToCheck.mass, vectorOfPlanets.getDistance());
+                    movementVector vectorToAdd = newPosition(currentPlanet.mass, gravitationalForce, vectorOfPlanets.getDirection());
                     currentPlanet.vector.x += vectorToAdd.x;
                     currentPlanet.vector.y += vectorToAdd.y;
-                    if (currentPlanetRadius + planetToCheckRadius > vectorOfPlanets.getMagnitude() - vectorToAdd.getMagnitude()) {
+                    if (currentPlanetRadius + planetToCheckRadius > vectorOfPlanets.getDistance() - vectorToAdd.getDistance()) {
                         if (currentPlanet.mass > planetToCheck.mass) {
                             currentPlanet.mass += planetToCheck.mass;
                             planetToCheck.isAlive = false;
