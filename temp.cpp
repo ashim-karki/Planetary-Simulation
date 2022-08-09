@@ -2,9 +2,9 @@
 #include <vector>
 #include <math.h>
 #include <engine.hpp>
-
 #include <SFML/Graphics.hpp>
-const float M_PI = PIlib;
+
+#define M_PI 3.141592653589793238463
 
 using namespace std;
 
@@ -49,55 +49,26 @@ int main() {
     long int currentFrame = 0;
     long int currentPhysicsUpdate = 0;
 
-    const int physicsUpdatesPerFrame = 60;
+    const int physicsUpdatesPerFrame = 40;
 
     int largestPlanetNum = 0;
 
     int planetAmt = 0;
     cout << "How many planets do you want? ";
     cin >> planetAmt;
-    cout << "Solar System> " << endl;
-    int flag1 = 0;
-    cin >>   flag1;
 
-
-    sf::RenderWindow window(sf::VideoMode(screenDimensions[0], screenDimensions[1]), "Planetary Simulation");
+    sf::RenderWindow window(sf::VideoMode(screenDimensions[0], screenDimensions[1]), "OggyP Gravity Sim!");
     window.setFramerateLimit(frameCap);
     sf::CircleShape planetShape(100.f);
     planetShape.setFillColor(sf::Color::Red);
     sf::CircleShape massRadius(100.f);
     massRadius.setFillColor(sf::Color::White);
-    sf::CircleShape Sun(100.0f);
     sf::VertexArray vectorDraw(sf::LinesStrip, 2);
     sf::RectangleShape fadeRect;
-    sf::Window.setView;
     fadeRect.setSize(sf::Vector2f(screenDimensions[0], screenDimensions[1]));
     fadeRect.setFillColor(sf::Color(0, 0, 0, 10));
     fadeRect.setPosition(sf::Vector2f(0, 0));
-    double mass_array[] = { 0.330,	4.87,	5.97,	0.073	,0.642	,1898,	568,	86.8	,102};
-    /*vector <sun> suns;
 
-    sun sun1;
-    sun1.cordinates[0] = screenDimensions[0] * pixelToSize / 2.0;
-    sun1.cordinates[1] = screenDimensions[1] * pixelToSize / 2.0;
-    sun1.mass = 1.989 * pow(10, 30);
-    suns.push_back(sun1);*/
-
-    vector <planet>SolarSystem;
-    for (int i = 0; i < 9; i++)
-    {
-        planet presetPlanet;
-        presetPlanet.planetID = i;
-        presetPlanet.cordinates[0] = rand() % screenDimensions[0] * pixelToSize;
-        presetPlanet.cordinates[1] = rand() % screenDimensions[1] * pixelToSize;
-        presetPlanet.mass = mass_array[i] * pow(10,24);
-        SolarSystem.push_back(presetPlanet);
-        presetPlanet.vector.x = 2.0;
-        presetPlanet.vector.y = 2.0;
-
-        
-
-    }
     vector <planet> planets;
     for (int i = 0; i < planetAmt; i++) {
         planet currentPlanet;
@@ -107,16 +78,6 @@ int main() {
         currentPlanet.cordinates[1] = rand() % screenDimensions[1] * pixelToSize;
         currentPlanet.mass = (rand() % 49 + 1) * pow(10, 24); // 1 to 100 * 10^24 | Earth is 5.9722 * 10^24
         planets.push_back(currentPlanet);
-    }
-    vector <planet> suns;
-    {
-        planet sun;
-        sun.planetID = largestPlanetNum;
-        largestPlanetNum++;
-        sun.cordinates[0] = screenDimensions[0] * pixelToSize / 2;
-        sun.cordinates[1] = screenDimensions[1] * pixelToSize / 2;
-        sun.mass = pow(0.0130 * 1000000.0, 24);
-        suns.push_back(sun);
     }
 
     cout << largestPlanetNum << endl;
@@ -147,13 +108,12 @@ int main() {
                 planet newPlanet;
                 newPlanet.planetID = largestPlanetNum;
                 largestPlanetNum++;
-                //note: make it dynamic
                 newPlanet.mass = 1 * pow(10, 24);
                 newPlanet.cordinates[0] = mouseCord[0] * pixelToSize;
                 newPlanet.cordinates[1] = mouseCord[1] * pixelToSize;
                 while (mouseBtns[0]) {
                     window.clear();
-                    //why is frameCap
+
                     newPlanet.mass += newPlanet.mass / frameCap;
                     double newPlanetRadius;
                     double actualRadius;
@@ -161,7 +121,6 @@ int main() {
                     if (newPlanet.customRadius != 0) {
                         newPlanetRadius = newPlanet.customRadius;
                         customRadius = true;
-                        //denisty dynamic
                         actualRadius = massToRadius(newPlanet.mass);
                     }
                     else {
@@ -193,47 +152,7 @@ int main() {
                             window.draw(planetShape);
                         }
                     }
-                    if (flag1 == true)
-                    {
-                        for (auto presetPlanet : SolarSystem)
-                        {
-                            if (presetPlanet.isAlive) {
-                                planetShape.setFillColor(sf::Color(presetPlanet.colour[0], presetPlanet.colour[1], presetPlanet.colour[2]));
-                                double planetRadius;
-                                if (presetPlanet.customRadius != 0) {
-                                    planetRadius = presetPlanet.customRadius;
-                                }
-                                else {
-                                    planetRadius = massToRadius(presetPlanet.mass);
-                                }
-                                planetShape.setRadius((float)(planetRadius / pixelToSize));
-                                planetShape.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
-                                window.draw(planetShape);
-                            }
-                        }
-                    }
-                    for (auto sun : suns)
-                    {
-                        if (sun.isAlive)
-                        {
-                            planetShape.setFillColor(sf::Color::Yellow);
-                            double sunradius;
-                            if (sun.customRadius != 0)
-                            {
-                                sunradius = sun.customRadius;
 
-                            }
-                            else
-                                sunradius = 1.229e7;
-
-                            planetShape.setRadius((float)(sunradius / pixelToSize));
-                            planetShape.setPosition(sf::Vector2f(sun.cordinates[0] / pixelToSize - sunradius / pixelToSize, sun.cordinates[1] / pixelToSize - sunradius / pixelToSize));
-                            //cout << "sun radus" << (float)(sunradius / pixelToSize);
-
-                            window.draw(planetShape);
-                        }
-                    }
-                    
                     planetShape.setFillColor(sf::Color(newPlanet.colour[0], newPlanet.colour[1], newPlanet.colour[2]));
                     planetShape.setRadius((float)(newPlanetRadius / pixelToSize));
                     planetShape.setPosition(sf::Vector2f(newPlanet.cordinates[0] / pixelToSize - newPlanetRadius / pixelToSize, newPlanet.cordinates[1] / pixelToSize - newPlanetRadius / pixelToSize));
@@ -291,7 +210,6 @@ int main() {
                 }
                 else {
                     currentPlanetRadius = massToRadius(currentPlanet.mass);
-                    //cout << "current planet radius: " << currentPlanetRadius;
                 }
                 for (auto& planetToCheck : planets) {
                     if (planetToCheck.planetID == currentPlanet.planetID || planetToCheck.isAlive == false) continue; // do not calculate for self
@@ -301,11 +219,6 @@ int main() {
                     movementVector vectorToAdd = getVectorFromForce(currentPlanet.mass, gravitationalForce, vectorOfPlanets.getDirection());
                     currentPlanet.vector.x += vectorToAdd.x;
                     currentPlanet.vector.y += vectorToAdd.y;
-                    /*std::cout << "PLANET ID : " << currentPlanet.planetID << std::endl;
-                    std::cout << "VELOCITY X: " << vectorToAdd.x << std::endl;
-                    std::cout << "VELOCITY Y: " << vectorToAdd.y << std::endl;
-                    std::cout << "VELOCITY Added : " << currentPlanet.vector.y << std::endl;
-                    */
                     if (currentPlanetRadius + planetToCheckRadius > vectorOfPlanets.getMagnitude() - vectorToAdd.getMagnitude()) {
                         if (currentPlanet.mass > planetToCheck.mass) {
                             currentPlanet.mass += planetToCheck.mass;
@@ -313,52 +226,10 @@ int main() {
                         }
                     }
                 }
-                  
             }
-
-            for (auto& currentPlanet : SolarSystem) {
-                if (currentPlanet.isAlive == false) continue; // do not run sim for dead planets
-                double currentPlanetRadius = 0;
-                if (currentPlanet.customRadius != 0) {
-                    currentPlanetRadius = currentPlanet.customRadius;
-                }
-                else {
-                    currentPlanetRadius = massToRadius(currentPlanet.mass);
-                    //cout << "current planet radius: " << currentPlanetRadius;
-                }
-                for (auto& planetToCheck : SolarSystem) {
-                    if (planetToCheck.planetID == currentPlanet.planetID || planetToCheck.isAlive == false) continue; // do not calculate for self
-                    const float planetToCheckRadius = massToRadius(planetToCheck.mass);
-                    movementVector vectorOfPlanets = vectorFromPlanets(currentPlanet, planetToCheck);
-                    const double gravitationalForce = calculateGravitationalForce(currentPlanet.mass, planetToCheck.mass, vectorOfPlanets.getMagnitude());
-                    movementVector vectorToAdd = getVectorFromForce(currentPlanet.mass, gravitationalForce, vectorOfPlanets.getDirection());
-                    currentPlanet.vector.x += vectorToAdd.x;
-                    currentPlanet.vector.y += vectorToAdd.y;
-                    /*std::cout << "PLANET ID : " << currentPlanet.planetID << std::endl;
-                    std::cout << "VELOCITY X: " << vectorToAdd.x << std::endl;
-                    std::cout << "VELOCITY Y: " << vectorToAdd.y << std::endl;
-                    std::cout << "VELOCITY Added : " << currentPlanet.vector.y << std::endl;
-                    */
-                    if (currentPlanetRadius + planetToCheckRadius > vectorOfPlanets.getMagnitude() - vectorToAdd.getMagnitude()) {
-                        if (currentPlanet.mass > planetToCheck.mass) {
-                            currentPlanet.mass += planetToCheck.mass;
-                            planetToCheck.isAlive = false;
-                        }
-                    }
-                }
-
-            }
-
-            for (auto& currentPlanet : planets)
-            {
-                
+            for (auto& currentPlanet : planets) {
                 currentPlanet.move();
             }
-            for (auto& currentplanet : SolarSystem)
-            {
-                currentplanet.move();
-            }
-
             currentPhysicsUpdate++;
         }
 
@@ -378,47 +249,7 @@ int main() {
             planetShape.setPosition(sf::Vector2f(currentPlanet.cordinates[0] / pixelToSize - currentPlanetRadius / pixelToSize, currentPlanet.cordinates[1] / pixelToSize - currentPlanetRadius / pixelToSize));
             window.draw(planetShape);
         }
-        for (auto sun : suns)
-        {
-            if (sun.isAlive)
-            {
-                planetShape.setFillColor(sf::Color::Yellow);
-                double sunradius;
-                if (sun.customRadius != 0)
-                {
-                    sunradius = sun.customRadius;
 
-                }
-                else
-                    sunradius = 1.229e7;
-
-                planetShape.setRadius((float)(sunradius / pixelToSize));
-                planetShape.setPosition(sf::Vector2f(sun.cordinates[0] / pixelToSize - sunradius / pixelToSize, sun.cordinates[1] / pixelToSize - sunradius / pixelToSize));
-                //cout << "sun radus" << (float)(sunradius / pixelToSize);
-
-                window.draw(planetShape);
-            }
-        }
-        if (flag1 == true)
-        {
-            for (auto& presetPlanet : SolarSystem) {
-                if (presetPlanet.isAlive) {
-                    planetShape.setFillColor(sf::Color(presetPlanet.colour[0], presetPlanet.colour[1], presetPlanet.colour[2]));
-                    double planetRadius;
-                    if (presetPlanet.customRadius != 0) {
-                        planetRadius = presetPlanet.customRadius;
-                    }
-                    else {
-                        planetRadius = massToRadius(presetPlanet.mass);
-                    }
-                    planetShape.setRadius((float)(planetRadius / pixelToSize));
-                    planetShape.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
-                    window.draw(planetShape);
-                    //cout << "PRESET PLANET RADIUS:" << presetPlanet.mass << std::endl;
-                }
-            }
-        }
-        
         window.display();
         currentFrame++;
     }
