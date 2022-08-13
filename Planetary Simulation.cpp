@@ -77,6 +77,7 @@ int main() {
     double mass_array[] = { 1989000, 0.330,	4.87,	5.97,	0.073	,0.642	,1898,	568,	86.8	,102};
     double radius_array[] = { 69634.0, 2439.7,6051.8,6371,3389.5,69911,58232,25362,24622,1188.3 };
     double coordinates_array[] = { 0,579, 1082, 1496, 2279,7786,14335,28725,44951,59000 };
+    double velocity_array[] = { 0,47.9, 35, 29.8, 24.1, 13.1, 9.7, 6.8, 5.4, 4.67 };
     /*vector <sun> suns;
 
     sun sun1;
@@ -96,12 +97,12 @@ int main() {
         cout << presetPlanet.cordinates[1] << endl;
         presetPlanet.customRadius = radius_array[i] * 1000;
         presetPlanet.mass = mass_array[i] * pow(10,24);
+        if (i != 0)
+        {
+            presetPlanet.vector.x = 0;
+            presetPlanet.vector.y = velocity_array[i]*1000;
+        }
         SolarSystem.push_back(presetPlanet);
-        //presetPlanet.vector.x = 2.0;
-        //presetPlanet.vector.y = 100000;
-
-        
-
     }
     vector <planet> planets;
     for (int i = 0; i < planetAmt; i++) {
@@ -323,6 +324,9 @@ int main() {
                   
             }
 
+           
+            
+
             for (auto& currentPlanet : SolarSystem) {
                 if (currentPlanet.isAlive == false) continue; // do not run sim for dead planets
                 double currentPlanetRadius = 0;
@@ -333,10 +337,7 @@ int main() {
                     currentPlanetRadius = massToRadius(currentPlanet.mass);
                     //cout << "current planet radius: " << currentPlanetRadius;
                 }
-                if (currentPlanet.planetID != 0)
-                {
-                    currentPlanet.vector.y = 10000;
-                }
+                
                 for (auto& planetToCheck : SolarSystem) {
                     if (planetToCheck.planetID == currentPlanet.planetID || planetToCheck.isAlive == false) continue; // do not calculate for self
                     const float planetToCheckRadius = massToRadius(planetToCheck.mass);
