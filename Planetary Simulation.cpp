@@ -7,9 +7,10 @@
 const float M_PI = PIlib;
 
 using namespace std;
+const double GravitationalConstant = 6.674 * pow(10.0, -11);
 
 long double calculateGravitationalForce(double mass1, double mass2, double distance) {
-    const double GravitationalConstant = 6.674 * pow(10.0, -11);
+    
     const double force = GravitationalConstant * (mass1 * mass2 / pow(distance, 2));
     return force;
 }
@@ -77,7 +78,7 @@ int main() {
     double mass_array[] = { 1989000, 0.330,	4.87,	5.97,	0.073	,0.642	,1898,	568,	86.8	,102};
     double radius_array[] = { 69634.0, 2439.7,6051.8,6371,3389.5,69911,58232,25362,24622,1188.3 };
     double coordinates_array[] = { 0,579, 1082, 1496, 2279,7786,14335,28725,44951,59000 };
-    double velocity_array[] = { 0,47.9, 35, 29.8, 24.1, 13.1, 9.7, 6.8, 5.4, 4.67 };
+    double velocity_array[] = { 0,47.9, 35, 941.7, 24.1, 13.1, 9.7, 6.8, 5.4, 4.67 };
     /*vector <sun> suns;
 
     sun sun1;
@@ -100,7 +101,7 @@ int main() {
         if (i != 0)
         {
             presetPlanet.vector.x = 0;
-            presetPlanet.vector.y = velocity_array[i]*1000;
+            presetPlanet.vector.y = sqrt((GravitationalConstant * mass_array[0]*pow(10,24))/(coordinates_array[i]*pow(10,5))) * 0.1;
         }
         SolarSystem.push_back(presetPlanet);
     }
