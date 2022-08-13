@@ -70,11 +70,13 @@ int main() {
     sf::CircleShape Sun(100.0f);
     sf::VertexArray vectorDraw(sf::LinesStrip, 2);
     sf::RectangleShape fadeRect;
-    sf::Window.setView;
+    //sf::Window.setView;
     fadeRect.setSize(sf::Vector2f(screenDimensions[0], screenDimensions[1]));
     fadeRect.setFillColor(sf::Color(0, 0, 0, 10));
     fadeRect.setPosition(sf::Vector2f(0, 0));
-    double mass_array[] = { 0.330,	4.87,	5.97,	0.073	,0.642	,1898,	568,	86.8	,102};
+    double mass_array[] = { 1989000, 0.330,	4.87,	5.97,	0.073	,0.642	,1898,	568,	86.8	,102};
+    double radius_array[] = { 6963.40, 2439.7,6051.8,6371,3389.5,69911,58232,25362,24622,1188.3 };
+    double coordinates_array[] = { 0,579, 1082, 1496, 2279,7786,14335,28725,44951,59000 };
     /*vector <sun> suns;
 
     sun sun1;
@@ -84,12 +86,15 @@ int main() {
     suns.push_back(sun1);*/
 
     vector <planet>SolarSystem;
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 10; i++)
     {
         planet presetPlanet;
         presetPlanet.planetID = i;
-        presetPlanet.cordinates[0] = rand() % screenDimensions[0] * pixelToSize;
-        presetPlanet.cordinates[1] = rand() % screenDimensions[1] * pixelToSize;
+        presetPlanet.cordinates[0] = screenDimensions[0] * pixelToSize/2;
+        cout << presetPlanet.cordinates[0] << endl;
+        presetPlanet.cordinates[1] = screenDimensions[1] * pixelToSize / 2;
+        cout << presetPlanet.cordinates[1] << endl;
+        presetPlanet.customRadius = radius_array[i] * 1000;
         presetPlanet.mass = mass_array[i] * pow(10,24);
         SolarSystem.push_back(presetPlanet);
         presetPlanet.vector.x = 2.0;
@@ -108,7 +113,7 @@ int main() {
         currentPlanet.mass = (rand() % 49 + 1) * pow(10, 24); // 1 to 100 * 10^24 | Earth is 5.9722 * 10^24
         planets.push_back(currentPlanet);
     }
-    vector <planet> suns;
+    /*vector <planet> suns;
     {
         planet sun;
         sun.planetID = largestPlanetNum;
@@ -117,7 +122,7 @@ int main() {
         sun.cordinates[1] = screenDimensions[1] * pixelToSize / 2;
         sun.mass = pow(0.0130 * 1000000.0, 24);
         suns.push_back(sun);
-    }
+    }*/
 
     cout << largestPlanetNum << endl;
 
@@ -212,7 +217,7 @@ int main() {
                             }
                         }
                     }
-                    for (auto sun : suns)
+                    /*for (auto sun : suns)
                     {
                         if (sun.isAlive)
                         {
@@ -232,11 +237,12 @@ int main() {
 
                             window.draw(planetShape);
                         }
-                    }
+                    }*/
                     
                     planetShape.setFillColor(sf::Color(newPlanet.colour[0], newPlanet.colour[1], newPlanet.colour[2]));
                     planetShape.setRadius((float)(newPlanetRadius / pixelToSize));
                     planetShape.setPosition(sf::Vector2f(newPlanet.cordinates[0] / pixelToSize - newPlanetRadius / pixelToSize, newPlanet.cordinates[1] / pixelToSize - newPlanetRadius / pixelToSize));
+                    cout << newPlanet.cordinates[0] << endl;
                     window.draw(planetShape);
 
                     // Drawing vector to show direction of planet
@@ -378,7 +384,7 @@ int main() {
             planetShape.setPosition(sf::Vector2f(currentPlanet.cordinates[0] / pixelToSize - currentPlanetRadius / pixelToSize, currentPlanet.cordinates[1] / pixelToSize - currentPlanetRadius / pixelToSize));
             window.draw(planetShape);
         }
-        for (auto sun : suns)
+        /*for (auto sun : suns)
         {
             if (sun.isAlive)
             {
@@ -398,7 +404,7 @@ int main() {
 
                 window.draw(planetShape);
             }
-        }
+        }*/
         if (flag1 == true)
         {
             for (auto& presetPlanet : SolarSystem) {
