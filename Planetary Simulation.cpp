@@ -75,7 +75,7 @@ int main() {
     fadeRect.setFillColor(sf::Color(0, 0, 0, 10));
     fadeRect.setPosition(sf::Vector2f(0, 0));
     double mass_array[] = { 1989000, 0.330,	4.87,	5.97,	0.073	,0.642	,1898,	568,	86.8	,102};
-    double radius_array[] = { 6963.40, 2439.7,6051.8,6371,3389.5,69911,58232,25362,24622,1188.3 };
+    double radius_array[] = { 69634.0, 2439.7,6051.8,6371,3389.5,69911,58232,25362,24622,1188.3 };
     double coordinates_array[] = { 0,579, 1082, 1496, 2279,7786,14335,28725,44951,59000 };
     /*vector <sun> suns;
 
@@ -90,15 +90,15 @@ int main() {
     {
         planet presetPlanet;
         presetPlanet.planetID = i;
-        presetPlanet.cordinates[0] = screenDimensions[0] * pixelToSize/2;
+        presetPlanet.cordinates[0] = 2.2 * pow(10,9) + coordinates_array[i] * pow(10, 5);
         cout << presetPlanet.cordinates[0] << endl;
-        presetPlanet.cordinates[1] = screenDimensions[1] * pixelToSize / 2;
+        presetPlanet.cordinates[1] = 1.4 * pow(10, 9);
         cout << presetPlanet.cordinates[1] << endl;
         presetPlanet.customRadius = radius_array[i] * 1000;
         presetPlanet.mass = mass_array[i] * pow(10,24);
         SolarSystem.push_back(presetPlanet);
-        presetPlanet.vector.x = 2.0;
-        presetPlanet.vector.y = 2.0;
+        //presetPlanet.vector.x = 2.0;
+        //presetPlanet.vector.y = 100000;
 
         
 
@@ -243,6 +243,7 @@ int main() {
                     planetShape.setRadius((float)(newPlanetRadius / pixelToSize));
                     planetShape.setPosition(sf::Vector2f(newPlanet.cordinates[0] / pixelToSize - newPlanetRadius / pixelToSize, newPlanet.cordinates[1] / pixelToSize - newPlanetRadius / pixelToSize));
                     cout << newPlanet.cordinates[0] << endl;
+                    cout << newPlanet.cordinates[1] << endl;
                     window.draw(planetShape);
 
                     // Drawing vector to show direction of planet
@@ -332,14 +333,23 @@ int main() {
                     currentPlanetRadius = massToRadius(currentPlanet.mass);
                     //cout << "current planet radius: " << currentPlanetRadius;
                 }
+                if (currentPlanet.planetID != 0)
+                {
+                    currentPlanet.vector.y = 10000;
+                }
                 for (auto& planetToCheck : SolarSystem) {
                     if (planetToCheck.planetID == currentPlanet.planetID || planetToCheck.isAlive == false) continue; // do not calculate for self
                     const float planetToCheckRadius = massToRadius(planetToCheck.mass);
                     movementVector vectorOfPlanets = vectorFromPlanets(currentPlanet, planetToCheck);
                     const double gravitationalForce = calculateGravitationalForce(currentPlanet.mass, planetToCheck.mass, vectorOfPlanets.getMagnitude());
                     movementVector vectorToAdd = getVectorFromForce(currentPlanet.mass, gravitationalForce, vectorOfPlanets.getDirection());
-                    currentPlanet.vector.x += vectorToAdd.x;
-                    currentPlanet.vector.y += vectorToAdd.y;
+                    if (currentPlanet.planetID != 0)
+                    {
+                        currentPlanet.vector.x += vectorToAdd.x * 0.01;
+                        //cout << currentPlanet.vector.x << endl;
+                        currentPlanet.vector.y += vectorToAdd.y * 0.01;
+                    }
+                    //cout << currentPlanet.vector.y << endl;
                     /*std::cout << "PLANET ID : " << currentPlanet.planetID << std::endl;
                     std::cout << "VELOCITY X: " << vectorToAdd.x << std::endl;
                     std::cout << "VELOCITY Y: " << vectorToAdd.y << std::endl;
