@@ -52,7 +52,7 @@ int main() {
 
     const int physicsUpdatesPerFrame = 60;
 
-    int largestPlanetNum = 0;
+    int largestPlanetNum = 10;
 
     int planetAmt = 0;
     cout << "How many planets do you want? ";
@@ -71,6 +71,16 @@ int main() {
     sf::CircleShape Sun(100.0f);
     sf::VertexArray vectorDraw(sf::LinesStrip, 2);
     sf::RectangleShape fadeRect;
+    sf::Texture texture;
+    if (!texture.loadFromFile("new.png", sf::IntRect(10, 10, 32, 32)))
+    {
+        cout << "error loading file";
+    }
+    sf::Sprite sprite;
+    sprite.setTexture(texture);
+    
+
+    //sprite.setScale(.1f, .1f);
     //sf::Window.setView;
     fadeRect.setSize(sf::Vector2f(screenDimensions[0], screenDimensions[1]));
     fadeRect.setFillColor(sf::Color(0, 0, 0, 10));
@@ -115,6 +125,7 @@ int main() {
         currentPlanet.mass = (rand() % 49 + 1) * pow(10, 24); // 1 to 100 * 10^24 | Earth is 5.9722 * 10^24
         planets.push_back(currentPlanet);
     }
+    
     /*vector <planet> suns;
     {
         planet sun;
@@ -145,7 +156,7 @@ int main() {
                 window.setView(sf::View(visibleArea));
             }
         }
-
+        
         mouseBtns[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 
         if (mouseBtns[0]) {
@@ -265,8 +276,11 @@ int main() {
 
                 newPlanet.vector.x = (mouseCord[0] * pixelToSize - newPlanet.cordinates[0]) / frameCap / physicsUpdatesPerFrame / 2; //move how far the mouse moved every 5 seconds
                 newPlanet.vector.y = (mouseCord[1] * pixelToSize - newPlanet.cordinates[1]) / frameCap / physicsUpdatesPerFrame / 2;
-
-                planets.push_back(newPlanet);
+                
+                if(flag1 == 1)
+                    SolarSystem.push_back(newPlanet);
+                else
+                    planets.push_back(newPlanet);
 
                 window.clear();
             }
@@ -290,6 +304,7 @@ int main() {
         else {
             window.clear();
         }
+        
 
         while (currentPhysicsUpdate < physicsUpdatesPerFrame) {
             for (auto& currentPlanet : planets) {
@@ -345,7 +360,7 @@ int main() {
                     movementVector vectorOfPlanets = vectorFromPlanets(currentPlanet, planetToCheck);
                     const double gravitationalForce = calculateGravitationalForce(currentPlanet.mass, planetToCheck.mass, vectorOfPlanets.getMagnitude());
                     movementVector vectorToAdd = getVectorFromForce(currentPlanet.mass, gravitationalForce, vectorOfPlanets.getDirection());
-                    if (currentPlanet.planetID != 0)
+                    //if (currentPlanet.planetID = 0)
                     {
                         currentPlanet.vector.x += vectorToAdd.x * 0.01;
                         //cout << currentPlanet.vector.x << endl;
@@ -391,10 +406,10 @@ int main() {
             else {
                 currentPlanetRadius = massToRadius(currentPlanet.mass);
             }
-            planetShape.setRadius((float)(currentPlanetRadius / pixelToSize));
-            planetShape.setFillColor(sf::Color(currentPlanet.colour[0], currentPlanet.colour[1], currentPlanet.colour[2]));
-            planetShape.setPosition(sf::Vector2f(currentPlanet.cordinates[0] / pixelToSize - currentPlanetRadius / pixelToSize, currentPlanet.cordinates[1] / pixelToSize - currentPlanetRadius / pixelToSize));
-            window.draw(planetShape);
+            //planetShape.setRadius((float)(currentPlanetRadius / pixelToSize));
+            //planetShape.setFillColor(sf::Color(currentPlanet.colour[0], currentPlanet.colour[1], currentPlanet.colour[2]));
+            planetShape.setOrigin(sf::Vector2f(currentPlanet.cordinates[0] / pixelToSize - currentPlanetRadius / pixelToSize, currentPlanet.cordinates[1] / pixelToSize - currentPlanetRadius / pixelToSize));
+            window.draw(sprite);
         }
         /*for (auto sun : suns)
         {
@@ -419,6 +434,7 @@ int main() {
         }*/
         if (flag1 == true)
         {
+            
             for (auto& presetPlanet : SolarSystem) {
                 if (presetPlanet.isAlive) {
                     planetShape.setFillColor(sf::Color(presetPlanet.colour[0], presetPlanet.colour[1], presetPlanet.colour[2]));
@@ -430,8 +446,8 @@ int main() {
                         planetRadius = massToRadius(presetPlanet.mass);
                     }
                     planetShape.setRadius((float)(planetRadius / pixelToSize));
-                    planetShape.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
-                    window.draw(planetShape);
+                    sprite.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
+                    window.draw(sprite);
                     //cout << "PRESET PLANET RADIUS:" << presetPlanet.mass << std::endl;
                 }
             }
