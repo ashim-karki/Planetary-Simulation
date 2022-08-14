@@ -72,15 +72,18 @@ int main() {
     sf::VertexArray vectorDraw(sf::LinesStrip, 2);
     sf::RectangleShape fadeRect;
     sf::Texture texture;
-    if (!texture.loadFromFile("new.png", sf::IntRect(10, 10, 32, 32)))
+    
+    
+    //texture.loadFromFile("include/new.png");
+    if (!texture.loadFromFile("pngegg.png"))
     {
         cout << "error loading file";
     }
-    sf::Sprite sprite;
-    sprite.setTexture(texture);
+    sf::Sprite sprite(texture);
+    //sprite.setTexture(texture);
     
-
-    //sprite.setScale(.1f, .1f);
+    //sprite.setColor(sf::Color::Green);
+    sprite.setScale(.09f, .09f);
     //sf::Window.setView;
     fadeRect.setSize(sf::Vector2f(screenDimensions[0], screenDimensions[1]));
     fadeRect.setFillColor(sf::Color(0, 0, 0, 10));
@@ -224,9 +227,9 @@ int main() {
                                 else {
                                     planetRadius = massToRadius(presetPlanet.mass);
                                 }
-                                planetShape.setRadius((float)(planetRadius / pixelToSize));
-                                planetShape.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
-                                window.draw(planetShape);
+                               //planetShape.setRadius((float)(planetRadius / pixelToSize));
+                                sprite.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
+                                window.draw(sprite);
                             }
                         }
                     }
@@ -250,14 +253,14 @@ int main() {
 
                             window.draw(planetShape);
                         }
-                    }*/
+                    }
                     
                     planetShape.setFillColor(sf::Color(newPlanet.colour[0], newPlanet.colour[1], newPlanet.colour[2]));
                     planetShape.setRadius((float)(newPlanetRadius / pixelToSize));
                     planetShape.setPosition(sf::Vector2f(newPlanet.cordinates[0] / pixelToSize - newPlanetRadius / pixelToSize, newPlanet.cordinates[1] / pixelToSize - newPlanetRadius / pixelToSize));
                     cout << newPlanet.cordinates[0] << endl;
                     cout << newPlanet.cordinates[1] << endl;
-                    window.draw(planetShape);
+                    window.draw(planetShape);*/
 
                     // Drawing vector to show direction of planet
                     mouseCord[0] = sf::Mouse::getPosition(window).x;
@@ -445,7 +448,7 @@ int main() {
                     else {
                         planetRadius = massToRadius(presetPlanet.mass);
                     }
-                    planetShape.setRadius((float)(planetRadius / pixelToSize));
+                   // planetShape.setRadius((float)(planetRadius / pixelToSize));
                     sprite.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
                     window.draw(sprite);
                     //cout << "PRESET PLANET RADIUS:" << presetPlanet.mass << std::endl;

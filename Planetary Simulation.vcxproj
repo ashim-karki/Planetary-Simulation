@@ -156,6 +156,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\OneDrive\Desktop\PlanetarySims\lib.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="new.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
