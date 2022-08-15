@@ -151,10 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Planetary Simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\OneDrive\Desktop\PlanetarySims\lib.hpp" />
+    <ClInclude Include="Menu.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="new.png" />
