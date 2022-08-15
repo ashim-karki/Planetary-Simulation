@@ -72,18 +72,17 @@ int main() {
     sf::VertexArray vectorDraw(sf::LinesStrip, 2);
     sf::RectangleShape fadeRect;
     sf::Texture texture;
-    
+    sf::IntRect rectsource(0, 0, 150, 150);
     
     //texture.loadFromFile("include/new.png");
-    if (!texture.loadFromFile("pngegg.png"))
+    if (!texture.loadFromFile("planets_1.png"))
     {
         cout << "error loading file";
     }
-    sf::Sprite sprite(texture);
-    //sprite.setTexture(texture);
+    sf::Sprite sprite(texture, rectsource);
     
     //sprite.setColor(sf::Color::Green);
-    sprite.setScale(.09f, .09f);
+   // sprite.setScale(.09f, .09f);
     //sf::Window.setView;
     fadeRect.setSize(sf::Vector2f(screenDimensions[0], screenDimensions[1]));
     fadeRect.setFillColor(sf::Color(0, 0, 0, 10));
@@ -399,6 +398,8 @@ int main() {
         }
 
         currentPhysicsUpdate = 0;
+        
+           
 
         for (auto& currentPlanet : planets) {
             if (currentPlanet.isAlive == false) continue; // do not run sim for dead planets
@@ -448,15 +449,23 @@ int main() {
                     else {
                         planetRadius = massToRadius(presetPlanet.mass);
                     }
+                    rectsource.left += 150;
+                    sprite.setTextureRect(rectsource);
+
                    // planetShape.setRadius((float)(planetRadius / pixelToSize));
                     sprite.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
                     window.draw(sprite);
+                    if(rectsource.left>900)
+
+                        rectsource.left = 00;
                     //cout << "PRESET PLANET RADIUS:" << presetPlanet.mass << std::endl;
                 }
             }
+            
         }
         
         window.display();
+        
         currentFrame++;
     }
 
