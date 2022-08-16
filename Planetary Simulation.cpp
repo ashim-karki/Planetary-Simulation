@@ -80,8 +80,13 @@ int main()
     sf::VertexArray orbit(sf::LineStrip, 2);
 
     sf::RectangleShape fadeRect;
-    sf::Texture texture;
+    sf::Texture texture, bgtexture;
+    bgtexture.loadFromFile("Bg.png");
+    
     sf::IntRect rectsource(0, 0, 150, 150);
+    sf::Sprite backgrounnd(bgtexture);
+    backgrounnd.setOrigin(window.getSize().x, window.getSize().y);
+    
     
     sf::View view(sf::Vector2f(0.f, 0.f), sf::Vector2f(screenDimensions[0], screenDimensions[1]));
     view.setCenter(window.getSize().x/2, window.getSize().y/2);
@@ -155,6 +160,11 @@ int main()
 
                 }
             }
+            //load backgorund image here
+            
+            window.draw(backgrounnd);
+            backgrounnd.setOrigin(window.getSize().x, window.getSize().y);
+
             
 
             mouseBtns[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left);
@@ -210,6 +220,7 @@ int main()
                                 planetShape.setRadius((float)(planetRadius / pixelToSize));
                                 planetShape.setPosition(sf::Vector2f(currentPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, currentPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
                                 window.draw(planetShape);
+                               window.draw(backgrounnd);
                             }
                         }
 
@@ -232,10 +243,11 @@ int main()
                                 planetShape.setRadius((float)(planetRadius / pixelToSize));
                                 planetShape.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
                                 window.draw(planetShape);
+                                window.draw(backgrounnd);
                             }
                         }
 
-
+                        
                         // Drawing vector to show direction of planet
                         mouseCord[0] = sf::Mouse::getPosition(window).x;
                         mouseCord[1] = sf::Mouse::getPosition(window).y;
@@ -244,7 +256,7 @@ int main()
                         window.draw(vectorDraw);
 
                         window.display();
-
+                        
                         mouseBtns[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left);
                     }
                     // on mouse release
@@ -272,6 +284,7 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
             {
                
+                backgrounnd.setPosition(window.getPosition().x,window.getPosition().y);
                 view.zoom(1.009);
                 window.setView(view);
                
@@ -319,7 +332,7 @@ int main()
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
             {
-                view.zoom(0.099);
+                view.zoom(0.009);
                 window.setView(view);
             }
 
@@ -478,9 +491,11 @@ int main()
             }
             rectsource.top = 0;
 
-
+           
 
             window.display();
+            
+           
 
             currentFrame++;
         }
