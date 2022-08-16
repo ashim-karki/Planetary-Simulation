@@ -87,6 +87,12 @@ int main()
     view.setCenter(window.getSize().x/2, window.getSize().y/2);
     view.setSize(sf::Vector2f(screenDimensions[0], screenDimensions[1]));
 
+    sf::Image image;
+    if (!image.loadFromFile("Assets/Bg.png"));
+    {
+        cout << "Can't load image" << endl;
+    }
+
 
     if (flag == 2)
     {
@@ -129,10 +135,7 @@ int main()
             SolarSystem.push_back(presetPlanet);
         }
         vector <planet> planets;
-        
-
-        
-
+      
         cout << largestPlanetNum << endl;
 
         while (window.isOpen()) {
