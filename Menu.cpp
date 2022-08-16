@@ -63,3 +63,60 @@ void Menu::MoveDown()
 		menu[selectedItemIndex].setFillColor(sf::Color::Red);
 	}
 }
+int Menu::menudraw()
+{
+    sf::RenderWindow window(sf::VideoMode(1500, 1000), "Planetary Simulation");
+    Menu menu(window.getSize().x, window.getSize().y);
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+
+        while (window.pollEvent(event))
+        {
+            switch (event.type)
+            {
+            case sf::Event::KeyReleased:
+                switch (event.key.code)
+                {
+                case sf::Keyboard::Up:
+                    menu.MoveUp();
+                    break;
+                case sf::Keyboard::Down:
+                    menu.MoveDown();
+                    break;
+                case sf::Keyboard::Return:
+                    switch (menu.GetPressedItem())
+                    {
+                    case 0:
+                        cout << "Manual Pressed" << endl;
+                        return 1;
+                        break;
+                    case 1:
+                        cout << "Solar system Pressed" << endl;
+                        return 2;
+                        break;
+                    case 2:
+                        cout << "Exit Pressed" << endl;
+                        exit(1);
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                break;
+
+
+            case sf::Event::Closed:
+                window.close();
+                break;
+
+            }
+        }
+        window.clear();
+
+        menu.draw(window);
+
+        window.display();
+    }
+}

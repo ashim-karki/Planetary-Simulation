@@ -12,7 +12,9 @@ public:
 	void MoveUp();
 	void MoveDown();
 	int GetPressedItem() { return selectedItemIndex; }
+	int menudraw();
 
+    
 private:
 	int selectedItemIndex;
 	sf::Font font;
