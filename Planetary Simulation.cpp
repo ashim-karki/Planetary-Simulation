@@ -19,11 +19,23 @@ private:
     double mass;
     sf::Vector2f velocity;
     sf::Vector2f coordinates;
+    
+    sf::Font displayfont;
+    
 public:
+    sf::Text display;
     Output() {};
-    Output(double m, sf::Vector2f v, sf::Vector2f coord) : mass(m), velocity(v), coordinates(coord) {}
-    void  printOutput()
+    Output(double m, sf::Vector2f v, sf::Vector2f coord) : mass(m), velocity(v), coordinates(coord) {};
+ 
+    inline void printOutput()
     {
+        displayfont.loadFromFile("Fonts/BRITANIC.TTF");
+        display.setFont(displayfont);
+        display.setString("Hello world");
+        display.setCharacterSize(60); 
+        display.setFillColor(sf::Color::Red);
+        display.setPosition(500, 500);
+        //window.draw(display);
         cout << "POs " <<  coordinates.x<< endl;
         cout << "mass" << mass << endl;
     }
@@ -206,7 +218,7 @@ int main()
             if (mouseBtns[0]) {
                 int mouseCord[2] = { sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y };
                 output.getpos(mouseCord[0], mouseCord[1]);
-                output.printOutput();
+                //output.printOutput();
                 if (mouseCord[0] >= 0 && mouseCord[0] <= screenDimensions[0] && mouseCord[1] >= 0 && mouseCord[1] <= screenDimensions[1]) {
                     planet newPlanet;
                     newPlanet.planetID = largestPlanetNum;
@@ -300,6 +312,7 @@ int main()
                     }
                     output.getmass(newPlanet.mass);
                     output.printOutput();
+                    window.draw(output.display);
                     
                     // on mouse release
                     mouseCord[0] = sf::Mouse::getPosition(window).x;
