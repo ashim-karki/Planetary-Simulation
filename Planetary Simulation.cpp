@@ -19,25 +19,82 @@ private:
     double mass;
     sf::Vector2f velocity;
     sf::Vector2f coordinates;
+   
     
     sf::Font displayfont;
     
 public:
-    sf::Text display;
+    sf::Text dis, vel;
+    sf::RectangleShape box;
     Output() {};
     Output(double m, sf::Vector2f v, sf::Vector2f coord) : mass(m), velocity(v), coordinates(coord) {};
  
-    inline void printOutput()
+    void printOutput(sf::RenderWindow &window)
     {
         displayfont.loadFromFile("Fonts/BRITANIC.TTF");
-        display.setFont(displayfont);
-        display.setString("Hello world");
-        display.setCharacterSize(60); 
-        display.setFillColor(sf::Color::Red);
-        display.setPosition(500, 500);
-        //window.draw(display);
-        cout << "POs " <<  coordinates.x<< endl;
-        cout << "mass" << mass << endl;
+        dis.setFont(displayfont);
+        vel.setFont(displayfont);
+        box.setPosition(coordinates.x, coordinates.y);
+        vel.setPosition(coordinates.x, coordinates.y + 20);
+        box.setSize(sf::Vector2f(270,140));
+        
+        box.setFillColor(sf::Color(255, 255, 255, 150));
+
+        dis.setString(toConvert(mass));
+        vel.setString(toConvert(velocity));
+        dis.setOutlineColor(sf::Color::White);
+
+        box.setScale(.5,.5);
+        dis.setScale(.5, .5);
+        vel.setScale(.4, .4);
+        
+        //cout << toConvert(mass);
+        
+        dis.setCharacterSize(40); 
+        vel.setCharacterSize(50); 
+        dis.setFillColor(sf::Color::Red);
+        vel.setFillColor(sf::Color::Red);
+        dis.setPosition(coordinates.x, coordinates.y);
+        window.draw(box);
+        window.draw(dis);
+        window.draw(vel);
+        
+        //window.display(dis);
+        //cout << "POs " <<  coordinates.x<< endl;
+        //cout << "mass" << mass << endl;
+    }
+    string toConvert(sf::Vector2f vel)
+    {   
+        int powerx = 0, powery = 0;
+        while (vel.x > 10  ||  vel.y>10)
+        {
+            vel.x = vel.x / 10;
+            powerx++;
+            vel.y = vel.y / 10;
+            powery++;
+        }
+        string velx = to_string(static_cast<int>(vel.x));
+        
+        string vely = to_string(static_cast<int>(vel.y));
+        string total = "Vx: " + velx + "* 10 ^ " + to_string(powerx) + "\nVy: " + vely + "* 10 ^ " + to_string(powery);
+        return total;
+
+
+    }
+    string toConvert(double mass)
+    {
+        int power = 0;
+        while(mass >=10)
+        {
+            
+            mass = mass /10;
+            power++;
+        }
+        string value = to_string(static_cast<int> (mass));
+        string index = to_string(power);
+        string total = value + "* 10 ^ " + index + "kg";
+        return total;
+
     }
     void getpos(double a, double b)
     {
@@ -47,6 +104,11 @@ public:
     void getmass(double M)
     {
         mass = M;
+    }
+    void getvelocity(double a, double b)
+    {
+        velocity.x = a;
+        velocity.y = b;
     }
     
 };
@@ -132,9 +194,8 @@ int main()
 
     sf::IntRect rectsource(0, 0, 150, 150);
     sf::Sprite backgrounnd(bgtexture);
-    backgrounnd.setOrigin(window.getSize().x, window.getSize().y);
-
-
+    backgrounnd.setOrigin(window.getSize().x/2, window.getSize().y/2);
+ 
     sf::View view(sf::Vector2f(0.f, 0.f), sf::Vector2f(screenDimensions[0], screenDimensions[1]));
     view.setCenter(window.getSize().x / 2, window.getSize().y / 2);
     view.setSize(sf::Vector2f(screenDimensions[0], screenDimensions[1]));
@@ -181,7 +242,7 @@ int main()
             SolarSystem.push_back(presetPlanet);
         }
         vector <planet> planets;
-
+        vector<Output> outputs;
 
 
 
@@ -207,19 +268,25 @@ int main()
 
                 }
             }
+            
+            
             //load backgorund image here
 
             window.draw(backgrounnd);
-            backgrounnd.setOrigin(window.getSize().x, window.getSize().y);
+            backgrounnd.setOrigin(window.getSize().x/2, window.getSize().y/2);
 
 
 
             mouseBtns[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 
             if (mouseBtns[0]) {
+              
                 int mouseCord[2] = { sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y };
                 output.getpos(mouseCord[0], mouseCord[1]);
-                //output.printOutput();
+              
+                
+                
+                
                 if (mouseCord[0] >= 0 && mouseCord[0] <= screenDimensions[0] && mouseCord[1] >= 0 && mouseCord[1] <= screenDimensions[1]) {
                     planet newPlanet;
                     newPlanet.planetID = largestPlanetNum;
@@ -231,8 +298,10 @@ int main()
                     while (mouseBtns[0])
                     {
                         window.clear();
-
+                        //output.printOutput(window);
                         newPlanet.mass += newPlanet.mass / frameCap;
+                        //UPDATE THE MASS TO CLASS ON EVERY LOOP
+                        output.getmass(newPlanet.mass);
                         double newPlanetRadius;
                         double actualRadius;
                         bool customRadius = false;
@@ -272,9 +341,14 @@ int main()
                                 planetShape.setPosition(sf::Vector2f(currentPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, currentPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
                                 
                                //window.draw(backgrounnd);
-                               window.draw(planetShape);
+                                window.draw(planetShape);
                             }
                         }
+                        //to draw growing planets as the radius increase
+                        planetShape.setFillColor(sf::Color(newPlanet.colour[0], newPlanet.colour[1], newPlanet.colour[2]));
+                        planetShape.setRadius((float)(newPlanetRadius / pixelToSize));
+                        planetShape.setPosition(sf::Vector2f(newPlanet.cordinates[0] / pixelToSize - newPlanetRadius / pixelToSize, newPlanet.cordinates[1] / pixelToSize - newPlanetRadius / pixelToSize));
+                        window.draw(planetShape);
 
 
 
@@ -292,12 +366,24 @@ int main()
                                 }
                                 //solarplanet.setTextureRect(rectsource);
                                 //rectsource.top += 150;
-                                planetShape.setRadius((float)(planetRadius / pixelToSize));
-                                planetShape.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
-                                window.draw(planetShape);
-                                window.draw(backgrounnd);
+                                if (presetPlanet.planetID < 10)
+                                {
+                                    solarplanet.setTextureRect(rectsource);
+                                    rectsource.top += 150;
+                                    solarplanet.setRadius((float)(planetRadius / pixelToSize));
+                                    solarplanet.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
+                                    window.draw(solarplanet);
+                                }
+                                else
+                                {
+                                    planetShape.setRadius((float)(planetRadius / pixelToSize));
+                                    planetShape.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
+                                    window.draw(planetShape);
+                                }
+                                //window.draw(backgrounnd);
                             }
                         }
+                        rectsource.top = 0;
 
 
                         // Drawing vector to show direction of planet
@@ -305,26 +391,29 @@ int main()
                         mouseCord[1] = sf::Mouse::getPosition(window).y;
                         vectorDraw[0].position = sf::Vector2f(mouseCord[0], mouseCord[1]);
                         vectorDraw[1].position = sf::Vector2f(newPlanet.cordinates[0] / pixelToSize, newPlanet.cordinates[1] / pixelToSize);
-                       
-
+                        output.printOutput(window);
+                        window.draw(vectorDraw);
                         window.display();
+                        
+                        newPlanet.vector.x = (mouseCord[0] * pixelToSize - newPlanet.cordinates[0]) / frameCap / physicsUpdatesPerFrame / 2; //move how far the mouse moved every 5 seconds
+                        newPlanet.vector.y = (mouseCord[1] * pixelToSize - newPlanet.cordinates[1]) / frameCap / physicsUpdatesPerFrame / 2;
+                        output.getvelocity(newPlanet.vector.x, newPlanet.vector.y);
 
                         mouseBtns[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left);
                     }
-                    output.getmass(newPlanet.mass);
-                    output.printOutput();
-                    window.draw(output.display);
+                    
+                    
+                   
+                    
+                   // window.draw(output.display);
                     
                     // on mouse release
                     mouseCord[0] = sf::Mouse::getPosition(window).x;
                     mouseCord[1] = sf::Mouse::getPosition(window).y;
 
-                    newPlanet.vector.x = (mouseCord[0] * pixelToSize - newPlanet.cordinates[0]) / frameCap / physicsUpdatesPerFrame / 2; //move how far the mouse moved every 5 seconds
-                    newPlanet.vector.y = (mouseCord[1] * pixelToSize - newPlanet.cordinates[1]) / frameCap / physicsUpdatesPerFrame / 2;
-
 
                     SolarSystem.push_back(newPlanet); //add newly formed planets here into the solarsysetm vector
-
+                    outputs.push_back(output);
 
                     window.clear();
                 }
@@ -340,7 +429,7 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
             {
 
-                backgrounnd.setPosition(window.getSize().x, window.getSize().y);
+                //backgrounnd.setPosition(window.getSize().x, window.getSize().y);
                 view.zoom(1.009);
                 window.setView(view);
 
@@ -408,7 +497,7 @@ int main()
                 window.clear();
 
             }
-
+            float i = 0;
 
             while (currentPhysicsUpdate < physicsUpdatesPerFrame) {
                 for (auto& currentPlanet : planets) {
@@ -516,9 +605,9 @@ int main()
             }
 
 
-
             for (auto& presetPlanet : SolarSystem) {
-                if (presetPlanet.isAlive) {
+                if (presetPlanet.isAlive)
+                {
                     planetShape.setFillColor(sf::Color(presetPlanet.colour[0], presetPlanet.colour[1], presetPlanet.colour[2]));
                     double planetRadius;
                     if (presetPlanet.customRadius != 0) {
@@ -538,7 +627,7 @@ int main()
                         window.draw(solarplanet);
 
                         orbit[0].position = (sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize, presetPlanet.cordinates[1] / pixelToSize));
-                        orbit[1].position = (sf::Vector2f(( presetPlanet.vector.x)/ pixelToSize,(presetPlanet.vector.y) / pixelToSize));
+                        orbit[1].position = (sf::Vector2f((presetPlanet.vector.x) / pixelToSize, (presetPlanet.vector.y) / pixelToSize));
 
                         window.draw(orbit);
 
@@ -552,12 +641,23 @@ int main()
                     }
 
 
+
                 }
             }
+            /*for (int i = 0; i < 10; i++)
+            {   
+                double planetRadius = SolarSystem[i].customRadius;
+                solarplanet.setTextureRect(rectsource);
+                rectsource.top += 150;
+
+                solarplanet.setRadius((float)(planetRadius / pixelToSize));
+                solarplanet.setPosition(sf::Vector2f(SolarSystem[i].cordinates[0] / pixelToSize - planetRadius / pixelToSize, SolarSystem[i].cordinates[1] / pixelToSize - planetRadius / pixelToSize));
+                window.draw(solarplanet);
+            }
+           */
+           
             rectsource.top = 0;
-
-
-
+            
             window.display();
 
 
