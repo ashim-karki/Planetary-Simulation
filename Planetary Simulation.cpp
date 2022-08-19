@@ -662,7 +662,7 @@ int main()
     if (flag == 1)
     {
         vector<planet> planets;
-        for (int i = 0; i < planetAmt; i++) {
+        for (int i = 0; i < planetAmt; i++) { //is this needed????
             planet currentPlanet;
             largestPlanetNum++;
             currentPlanet.planetID = i;
@@ -672,7 +672,7 @@ int main()
             planets.push_back(currentPlanet);
         }
 
-        cout << largestPlanetNum << endl;
+        //cout << largestPlanetNum << endl;
 
         while (window.isOpen()) {
             sf::Event event;
@@ -696,7 +696,7 @@ int main()
 
             if (mouseBtns[0]) {
                 int mouseCord[2] = { sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y };
-                if (mouseCord[0] >= 0 && mouseCord[0] <= screenDimensions[0] && mouseCord[1] >= 0 && mouseCord[1] <= screenDimensions[1]) {
+                if (mouseCord[0] >= 0 && mouseCord[0] <= screenDimensions[0] && mouseCord[1] >= 0 && mouseCord[1] <= screenDimensions[1]) { //if inside window
                     planet newPlanet;
                     newPlanet.planetID = largestPlanetNum;
                     largestPlanetNum++;
