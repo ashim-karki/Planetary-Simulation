@@ -13,8 +13,9 @@ public:
     }
 
     double getDirection() {
-        double direction = atan(x / y);
-        if (y == 0) {
+        double direction = atan(x / y); // x and y is inverted than usual
+        if (y == 0) //infinity condition of tan
+        {
             if (x > 0) {
                 direction = PIlib / 2;
             }
@@ -22,7 +23,7 @@ public:
                 direction = -PIlib / 2;
             }
         }
-        else if (y < 0) {
+        else if (y < 0) { 
             if (x > 0) {
                 direction = PIlib / 2 + (PIlib / 2 + direction);
             }
