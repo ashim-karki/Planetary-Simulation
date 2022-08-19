@@ -23,9 +23,9 @@ public:
                 direction = -PIlib / 2;
             }
         }
-        else if (y < 0) { 
+        else if (y < 0) { //x < 0 in usual terms
             if (x > 0) {
-                direction = PIlib / 2 + (PIlib / 2 + direction);
+                direction = PIlib / 2 + (PIlib / 2 + direction);//?
             }
             else {
                 direction = -(PIlib / 2) - (PIlib / 2 - direction);

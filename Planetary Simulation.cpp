@@ -1,17 +1,15 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include <engine.hpp>
-#include "Menu.h"
-
 #include <SFML/Graphics.hpp>
-const float M_PI = PIlib;
-
+#include <engine.hpp> // < > - header or standard files
+#include "Menu.hpp" //.h is for C so changed to .hpp " " - User defined file
 
 using namespace std;
+
+const float M_PI = PIlib;
 const double GravitationalConstant = 6.674 * pow(10.0, -11);
 sf::RenderWindow window(sf::VideoMode(1000, 1500), "Planetary Simulation");
-
 
 class Output
 {
@@ -19,10 +17,7 @@ private:
     double mass;
     sf::Vector2f velocity;
     sf::Vector2f coordinates;
-   
-    
     sf::Font displayfont;
-    
 public:
     sf::Text dis, vel;
     sf::RectangleShape box;
@@ -110,9 +105,7 @@ public:
         velocity.x = a;
         velocity.y = b;
     }
-    
 };
-
 
 double massToRadius(double mass)
 {
@@ -122,12 +115,10 @@ double massToRadius(double mass)
     return radius;
 
 }
+
 class Calculation
 {   
-    
-    
 public:
-   
     long double calculateGravitationalForce(double mass1, double mass2, double distance) {
 
         const double force = GravitationalConstant * (mass1 * mass2 / pow(distance, 2));
@@ -145,7 +136,6 @@ public:
         newVector.setVector(direction, magnitude);
         return newVector;
     }
-
 };
 
 
@@ -185,7 +175,7 @@ int main()
     sf::CircleShape massRadius(100.f);
     massRadius.setFillColor(sf::Color::White);
 
-    sf::VertexArray vectorDraw(sf::LinesStrip, 2);
+    sf::VertexArray vectorDraw(sf::LinesStrip, 2); //A vertex is the smallest graphical entity that you can manipulate.
     sf::VertexArray orbit(sf::LineStrip, 2);
 
     sf::RectangleShape fadeRect;

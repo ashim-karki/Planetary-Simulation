@@ -1,4 +1,4 @@
-#include "Menu.h"
+#include "Menu.hpp"
 #include<iostream>
 #define SFML_NO_DEPRECATED_WARNINGS
 

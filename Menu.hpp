@@ -2,11 +2,11 @@
 #include "SFML/Graphics.hpp"
 
 #define MAX_ITEMS 3
-class Menu
+class Menu //add bg sprite here
 {
 public:
 	Menu(float width, float height);
-	~Menu();
+	~Menu(); // is the destructor working?
 
 	void draw(sf::RenderWindow &window);
 	void MoveUp();

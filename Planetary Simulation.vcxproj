@@ -156,7 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\OneDrive\Desktop\PlanetarySims\lib.hpp" />
-    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Menu.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="new.png" />
