@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <math.h>
+#include <cmath>
 #include <SFML/Graphics.hpp>
 #include <engine.hpp> // < > - header or standard files
 #include "Menu.hpp" //.h is for C so changed to .hpp " " - User defined file
@@ -165,8 +165,6 @@ int main()
     // menudraw returns flag value as well as render menu window
     int flag = menu.menudraw();
 
-
-    int planetAmt = 0;
     window.setFramerateLimit(frameCap);
     
     sf::CircleShape planetShape(100.f);
@@ -662,17 +660,6 @@ int main()
     if (flag == 1)
     {
         vector<planet> planets;
-        for (int i = 0; i < planetAmt; i++) { //is this needed????
-            planet currentPlanet;
-            largestPlanetNum++;
-            currentPlanet.planetID = i;
-            currentPlanet.cordinates[0] = rand() % screenDimensions[0] * pixelToSize;
-            currentPlanet.cordinates[1] = rand() % screenDimensions[1] * pixelToSize;
-            currentPlanet.mass = (rand() % 49 + 1) * pow(10, 24); // 1 to 100 * 10^24 | Earth is 5.9722 * 10^24
-            planets.push_back(currentPlanet);
-        }
-
-        //cout << largestPlanetNum << endl;
 
         while (window.isOpen()) {
             sf::Event event;
@@ -692,15 +679,15 @@ int main()
                 }
             }
 
-            mouseBtns[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+            mouseBtns[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left); //assignment of bool left click mouse button
 
             if (mouseBtns[0]) {
-                int mouseCord[2] = { sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y };
+                int mouseCord[2] = { sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y }; //store mouse coordinates
                 if (mouseCord[0] >= 0 && mouseCord[0] <= screenDimensions[0] && mouseCord[1] >= 0 && mouseCord[1] <= screenDimensions[1]) { //if inside window
                     planet newPlanet;
                     newPlanet.planetID = largestPlanetNum;
                     largestPlanetNum++;
-                    newPlanet.mass = 1 * pow(10, 24);
+                    newPlanet.mass = 1 * pow(10, 25);
                     newPlanet.cordinates[0] = mouseCord[0] * pixelToSize;
                     newPlanet.cordinates[1] = mouseCord[1] * pixelToSize;
                     while (mouseBtns[0]) {
@@ -723,7 +710,7 @@ int main()
                         }
 
                         if (customRadius) {
-                            massRadius.setRadius((float)(3.0 * massToRadius(newPlanet.mass) / pixelToSize));
+                            massRadius.setRadius((float)(massToRadius(newPlanet.mass) / pixelToSize));
                             massRadius.setPosition(sf::Vector2f(newPlanet.cordinates[0] / pixelToSize - actualRadius / pixelToSize, newPlanet.cordinates[1] / pixelToSize - actualRadius / pixelToSize));
                             window.draw(massRadius);
                         }
@@ -778,7 +765,7 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
                 clearScreen = !clearScreen;
 
-                while (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {};
+                while (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {}; //
             }
 
 
@@ -789,18 +776,18 @@ int main()
                 window.setView(view);
 
             }
-
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
             {
-                view.move(sf::Vector2f(-10.f, 0.f));
+                view.move(sf::Vector2f(0.f, -10.f));
 
 
                 window.setView(view);
 
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
             {
-                view.move(sf::Vector2f(+10.f, 0.f));
+                view.move(sf::Vector2f(-10.f, 0.f));
 
 
                 window.setView(view);
@@ -814,14 +801,16 @@ int main()
                 window.setView(view);
 
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
             {
-                view.move(sf::Vector2f(0.f, -10.f));
+                view.move(sf::Vector2f(+10.f, 0.f));
 
 
                 window.setView(view);
 
             }
+            
+            
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
             {
 
