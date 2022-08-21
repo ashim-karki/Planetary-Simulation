@@ -26,8 +26,15 @@ Menu::Menu(float width, float height)
 	menu[2].setFillColor(sf::Color::White);
 	menu[2].setString("Exit");
 	menu[2].setPosition(sf::Vector2f(width / 2, height / (MAX_ITEMS + 1) * 3));
+    //text.loadFromFile("background.jpg");
+    //background.setTexture(text);
+  
+    
+
+
 
 	selectedItemIndex = 0;
+
 }
 
 Menu::~Menu()
@@ -40,8 +47,11 @@ void Menu::draw(sf::RenderWindow &window)
 	for (int i = 0; i < MAX_ITEMS; i++)
 	{
 		window.draw(menu[i]);
+        
 	}
-
+   
+    
+    window.draw(background);
 }
 
 void Menu::MoveUp()

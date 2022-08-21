@@ -13,6 +13,9 @@ public:
 	void MoveDown();
 	int GetPressedItem() { return selectedItemIndex; }
 	int menudraw();
+	sf::RectangleShape rect;
+	sf::Texture text;
+	sf::Sprite background;
 
     
 private:

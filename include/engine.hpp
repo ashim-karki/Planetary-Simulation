@@ -2,7 +2,7 @@
 
 const double PIlib = 3.141592653589793238463;
 
-class movementVector {
+class Move {
 public:
     double x = 0;
     double y = 0;
@@ -25,7 +25,7 @@ public:
         }
         else if (y < 0) { //x < 0 in usual terms
             if (x > 0) {
-                direction = PIlib / 2 + (PIlib / 2 + direction);//?
+                direction = PIlib / 2 + (PIlib / 2 + direction);
             }
             else {
                 direction = -(PIlib / 2) - (PIlib / 2 - direction);
@@ -42,12 +42,12 @@ public:
 
 class planet {
 public:
-    movementVector vector;
+    Move vector;
     int colour[3] = { rand() % 200 + 55, rand() % 200 + 55, rand() % 200 + 55 };
     int planetID;
     bool isAlive = true;
     double mass; // in kg
-    double customRadius = 0;
+    double Radius = 0;
     double cordinates[2] = { 0, 69 }; // in km, will be divided by 3000000 to get pixels
     void move() { // moves the planet by the vector
         cordinates[0] += vector.x;

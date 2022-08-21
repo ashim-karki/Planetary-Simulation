@@ -159,6 +159,7 @@
     <ClInclude Include="Menu.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="background.jpg" />
     <Image Include="new.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
