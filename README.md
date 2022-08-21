@@ -1,4 +1,5 @@
-To run the program, open with Visual Studio and directly run the code. No need to add any additional libraries as they are already pre-included and linked. 
+To run the program, open with Visual Studio and directly run the code. No need to add any additional libraries as they are already pre-included and linked. <br/>
+<br/>
 Note: Press C after running the program to remove the orbits.
 
 ## Controls:
