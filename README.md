@@ -3,7 +3,7 @@ Note: Press C after running the program to remove the orbits.
 
 ## Controls:
 ### Mouse controls 
-Left Click - Generate Planet (initial mass = 1 * 10 25  kg) <br/>
+Left Click - Generate Planet (initial mass = 1 * 10<sup>25</sup>  kg) <br/>
 Hold Left Click - Increase mass by  1 * 10 25  kg per frame <br/>
 Hold left Click + SpaceBar - Keeps the radius unchanged but increase the mass by same factor <br/>
 
