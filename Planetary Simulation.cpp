@@ -2,14 +2,13 @@
 #include <vector>
 #include <cmath>
 #include <SFML/Graphics.hpp>
-#include <engine.hpp> // < > - header or standard files
-#include "Menu.hpp" //.h is for C so changed to .hpp " " - User defined file
+#include <engine.hpp> 
+#include "Menu.hpp" 
 
 using namespace std;
 
 const float M_PI = PIlib;
 const double GravitationalConstant = 6.674 * pow(10.0, -11);
-//sf::RenderWindow window(sf::VideoMode(1000, 1500), "Planetary Simulation");
 
 class Output
 {
@@ -43,8 +42,6 @@ public:
         dis.setScale(.5, .5);
         vel.setScale(.4, .4);
 
-        //cout << toConvert(mass);
-
         dis.setCharacterSize(40);
         vel.setCharacterSize(50);
         dis.setFillColor(sf::Color::Red);
@@ -53,10 +50,6 @@ public:
         window.draw(box);
         window.draw(dis);
         window.draw(vel);
-
-        //window.display(dis);
-        //cout << "POs " <<  coordinates.x<< endl;
-        //cout << "mass" << mass << endl;
     }
     string toConvert(sf::Vector2f vel)
     {
@@ -73,15 +66,12 @@ public:
         string vely = to_string(static_cast<int>(vel.y));
         string total = "Vx: " + velx + "* 10 ^ " + to_string(powerx) + "\nVy: " + vely + "* 10 ^ " + to_string(powery);
         return total;
-
-
     }
     string toConvert(double mass)
     {
         int power = 0;
         while (mass >= 10)
         {
-
             mass = mass / 10;
             power++;
         }
@@ -109,11 +99,8 @@ public:
 
 double massToRadius(double mass)
 {
-    // 5514 is the Mean density (kg/m3) of earth.
-    // formula for radius of sphere from volume
     double radius = cbrt(3 * (mass / (5514)) / (4 * M_PI));
     return radius;
-
 }
 
 class Calculation
@@ -200,7 +187,7 @@ int main()
         solarplanet.setTexture(&texture);
         solarplanet.setTextureRect(rectsource);
         //sprite.setColor(sf::Color::Green);
-       //sprite.setScale(.5f, .5f);
+        //sprite.setScale(.5f, .5f);
         //sf::Window.setView;
         fadeRect.setSize(sf::Vector2f(screenDimensions[0], screenDimensions[1]));
         fadeRect.setFillColor(sf::Color(0, 0, 0, 10));
@@ -209,7 +196,6 @@ int main()
         double radius_array[] = { 69634.0, 2439.7,6051.8,6371.0,3389.5,69911,58232,25362,24622,1188.3 };
         double coordinates_array[] = { 0,879, 1382, 1796, 2579,7786,14335,28725,44951,59000 };
         double velocity_array[] = { 0,47.9, 35, 941.7, 24.1, 13.1, 9.7, 6.8, 5.4, 4.67 };
-
 
         vector <planet>SolarSystem;
         for (int i = 0; i < 10; i++)
@@ -230,7 +216,6 @@ int main()
         }
 
         vector<Output> outputs;
-
 
         vector <planet> planets;
         cout << largestPlanetNum << endl;
@@ -256,13 +241,9 @@ int main()
                 }
             }
 
-
             //load backgorund image here
-
             //window.draw(backgrounnd);
             //backgrounnd.setOrigin(screenDimensions[0]/ 2, screenDimensions[1]/ 2);
-
-
 
             mouseBtns[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 
@@ -307,8 +288,6 @@ int main()
                             massRadius.setPosition(sf::Vector2f(newPlanet.cordinates[0] / pixelToSize - actualRadius / pixelToSize, newPlanet.cordinates[1] / pixelToSize - actualRadius / pixelToSize));
                             window.draw(massRadius);
                         }
-
-
                         // draw all other planets
                         for (auto& currentPlanet : planets) {
                             if (currentPlanet.isAlive) {
@@ -333,9 +312,6 @@ int main()
                         planetShape.setRadius((float)(newPlanetRadius / pixelToSize));
                         planetShape.setPosition(sf::Vector2f(newPlanet.cordinates[0] / pixelToSize - newPlanetRadius / pixelToSize, newPlanet.cordinates[1] / pixelToSize - newPlanetRadius / pixelToSize));
                         window.draw(planetShape);
-
-
-
 
                         for (auto& presetPlanet : SolarSystem)
                         {
@@ -385,20 +361,12 @@ int main()
 
                         mouseBtns[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left);
                     }
-
-
-
-
                     // window.draw(output.display);
-
-                     // on mouse release
+                    // on mouse release
                     mouseCord[0] = sf::Mouse::getPosition(window).x;
                     mouseCord[1] = sf::Mouse::getPosition(window).y;
-
-
                     SolarSystem.push_back(newPlanet); //add newly formed planets here into the solarsysetm vector
                     outputs.push_back(output);
-
                     window.clear();
                 }
             }
@@ -409,69 +377,43 @@ int main()
                 while (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {};
             }
 
-
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
             {
-
                 //backgrounnd.setPosition(window.getSize().x, window.getSize().y);
                 view.zoom(1.009);
                 window.setView(view);
-
             }
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
             {
                 view.move(sf::Vector2f(-5.f, 0.f));
-
-
                 window.setView(view);
-
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
             {
                 view.move(sf::Vector2f(+5.f, 0.f));
-
-
                 window.setView(view);
-
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
             {
                 view.move(sf::Vector2f(0.f, 5.f));
-
-
                 window.setView(view);
-
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
             {
                 view.move(sf::Vector2f(0.f, -5.f));
-
-
                 window.setView(view);
-
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
             {
-
                 view.reset(sf::FloatRect(0, 0, screenDimensions[0], screenDimensions[1]));
-
                 window.setView(view);
-
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
             {
-
                 view.zoom(0.99);
                 window.setView(view);
             }
-
-
-
-
-
-
-
             if (clearScreen) {
                 if (currentFrame % frameCap == 0 or currentFrame % frameCap == round(frameCap / 2)) {
                     window.draw(fadeRect);
@@ -480,10 +422,8 @@ int main()
             }
             else {
                 window.clear();
-
             }
             float i = 0;
-
             while (currentPhysicsUpdate < physicsUpdatesPerFrame) {
                 for (auto& currentPlanet : planets) {
                     if (currentPlanet.isAlive == false) continue; // do not run sim for dead planets
@@ -514,9 +454,6 @@ int main()
 
                 }
 
-
-
-
                 for (auto& currentPlanet : SolarSystem) {
                     if (currentPlanet.isAlive == false) continue; // do not run sim for dead planets
                     double currentPlanetRadius = 0;
@@ -546,7 +483,6 @@ int main()
                          std::cout << "VELOCITY Added : " << currentPlanet.vector.y << std::endl;
                          */
 
-
                         if (currentPlanetRadius + planetToCheckRadius > vectorOfPlanets.getMagnitude() - vectorToAdd.getMagnitude()) {
                             if (currentPlanet.mass > planetToCheck.mass) {
                                 currentPlanet.mass += planetToCheck.mass;
@@ -554,7 +490,6 @@ int main()
                             }
                         }
                     }
-
                 }
 
                 for (auto& currentPlanet : planets)
@@ -572,8 +507,6 @@ int main()
 
             currentPhysicsUpdate = 0;
 
-
-
             for (auto& currentPlanet : planets) {
                 if (currentPlanet.isAlive == false) continue; // do not run sim for dead planets
                 double currentPlanetRadius = 0;
@@ -588,9 +521,7 @@ int main()
                 planetShape.setFillColor(sf::Color(currentPlanet.colour[0], currentPlanet.colour[1], currentPlanet.colour[2]));
                 planetShape.setPosition(sf::Vector2f(currentPlanet.cordinates[0] / pixelToSize - currentPlanetRadius / pixelToSize, currentPlanet.cordinates[1] / pixelToSize - currentPlanetRadius / pixelToSize));
                 window.draw(planetShape);
-
             }
-
 
             for (auto& presetPlanet : SolarSystem) {
                 if (presetPlanet.isAlive)
@@ -605,16 +536,12 @@ int main()
                     }
                     if (presetPlanet.planetID < 10)
                     {
-
-
                         solarplanet.setTextureRect(rectsource);
                         rectsource.top += 150;
 
                         solarplanet.setRadius((float)(planetRadius / pixelToSize));
                         solarplanet.setPosition(sf::Vector2f(presetPlanet.cordinates[0] / pixelToSize - planetRadius / pixelToSize, presetPlanet.cordinates[1] / pixelToSize - planetRadius / pixelToSize));
                         window.draw(solarplanet);
-
-
                     }
                     else
                     {
@@ -623,27 +550,12 @@ int main()
 
                         window.draw(planetShape);
                     }
-
-
-
-
-
                 }
             }
-
-
             rectsource.top = 0;
-
             window.display();
-
-
-
             currentFrame++;
         }
-
-
-
-
     }
     if (flag == 1)
     {
@@ -670,7 +582,6 @@ int main()
 
             mouseBtns[0] = sf::Mouse::isButtonPressed(sf::Mouse::Left); //assignment of bool left click mouse button
 
-
             if (mouseBtns[0]) {
                 int mouseCord[2] = { sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y }; //store mouse coordinates
                 output.getpos(mouseCord[0], mouseCord[1]);
@@ -683,7 +594,6 @@ int main()
                     newPlanet.cordinates[1] = mouseCord[1] * pixelToSize;
                     while (mouseBtns[0]) {
                         window.clear();
-
                         newPlanet.mass += newPlanet.mass / frameCap;
                         output.getmass(newPlanet.mass);
                         double newPlanetRadius;
@@ -739,8 +649,6 @@ int main()
                         output.printOutput(window);
                         window.display();
 
-
-
                         newPlanet.vector.x = (mouseCord[0] * pixelToSize - newPlanet.cordinates[0]) / frameCap / physicsUpdatesPerFrame / 2; //move how far the mouse moved every 5 seconds
                         newPlanet.vector.y = (mouseCord[1] * pixelToSize - newPlanet.cordinates[1]) / frameCap / physicsUpdatesPerFrame / 2;
                         output.getvelocity(newPlanet.vector.x, newPlanet.vector.y);
@@ -750,23 +658,17 @@ int main()
 
                     mouseCord[0] = sf::Mouse::getPosition(window).x;
                     mouseCord[1] = sf::Mouse::getPosition(window).y;
-
-
-
                     planets.push_back(newPlanet);
                     outputs.push_back(output);
-
                     window.clear();
                 }
             }
-
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
                 clearScreen = !clearScreen;
 
                 while (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {}; //
             }
-
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
             {
@@ -778,49 +680,34 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
             {
                 view.move(sf::Vector2f(0.f, -10.f));
-
-
                 window.setView(view);
-
             }
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
             {
                 view.move(sf::Vector2f(-10.f, 0.f));
-
-
                 window.setView(view);
 
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
             {
                 view.move(sf::Vector2f(0.f, 10.f));
-
-
                 window.setView(view);
 
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
             {
                 view.move(sf::Vector2f(+10.f, 0.f));
-
-
                 window.setView(view);
-
             }
-
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
             {
-
                 view.reset(sf::FloatRect(0, 0, screenDimensions[0], screenDimensions[1]));
-
                 window.setView(view);
-
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
             {
-
                 view.zoom(0.99);
                 window.setView(view);
             }
@@ -881,11 +768,9 @@ int main()
                 planetShape.setPosition(sf::Vector2f(currentPlanet.cordinates[0] / pixelToSize - currentPlanetRadius / pixelToSize, currentPlanet.cordinates[1] / pixelToSize - currentPlanetRadius / pixelToSize));
                 window.draw(planetShape);
             }
-
             window.display();
             currentFrame++;
         }
-
         return 0;
     }
     return 0;
