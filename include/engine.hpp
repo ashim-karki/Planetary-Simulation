@@ -2,7 +2,7 @@
 
 const double pi = 3.141592653589793238463;
 
-class movementVector {
+class Move {
 public:
     double x = 0;
     double y = 0;
@@ -13,8 +13,9 @@ public:
     }
 
     double getDirection() {
-        double direction = atan(x / y);
-        if (y == 0) {
+        double direction = atan(x / y); // x and y is inverted than usual
+        if (y == 0) //infinity condition of tan
+        {
             if (x > 0) {
                 direction = pi / 2;
             }
@@ -22,7 +23,7 @@ public:
                 direction = -pi / 2;
             }
         }
-        else if (y < 0) {
+        else if (y < 0) { //x < 0 in usual terms
             if (x > 0) {
                 direction = pi / 2 + (pi / 2 + direction);
             }
@@ -41,12 +42,12 @@ public:
 
 class planet {
 public:
-    movementVector vector;
+    Move vector;
     int colour[3] = { rand() % 200 + 55, rand() % 200 + 55, rand() % 200 + 55 };
     int planetID;
     bool isAlive = true;
     double mass; // in kg
-    double customRadius = 0;
+    double Radius = 0;
     double cordinates[2] = { 0, 69 }; // in km, will be divided by 3000000 to get pixels
     void move() { // moves the planet by the vector
         cordinates[0] += vector.x;
