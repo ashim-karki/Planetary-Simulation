@@ -1,15 +1,15 @@
 #include <math.h>
 
-const double PIlib = 3.141592653589793238463;
+const double pi = 3.141592653589793238463;
 
 class Move {
 public:
     double x = 0;
     double y = 0;
 
-    double getMagnitude() {
-        const double magnitudeFromVector = sqrt(pow(x, 2) + pow(y, 2));
-        return magnitudeFromVector;
+    double getDistance() {
+        const double distance = sqrt(pow(x, 2) + pow(y, 2));
+        return distance;
     }
 
     double getDirection() {
@@ -17,26 +17,26 @@ public:
         if (y == 0) //infinity condition of tan
         {
             if (x > 0) {
-                direction = PIlib / 2;
+                direction = pi / 2;
             }
             else {
-                direction = -PIlib / 2;
+                direction = -pi / 2;
             }
         }
         else if (y < 0) { //x < 0 in usual terms
             if (x > 0) {
-                direction = PIlib / 2 + (PIlib / 2 + direction);
+                direction = pi / 2 + (pi / 2 + direction);
             }
             else {
-                direction = -(PIlib / 2) - (PIlib / 2 - direction);
+                direction = -(pi / 2) - (pi / 2 - direction);
             }
         }
         return direction;
     }
 
-    void setVector(double direction, double magnitude) {
-        x = magnitude * sin(direction);
-        y = magnitude * cos(direction);
+    void updatePos(double direction, double distance) {
+        x = distance * sin(direction);
+        y = distance * cos(direction);
     }
 };
 
