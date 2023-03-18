@@ -17,3 +17,5 @@ Key Z - Zoom out <br/>
 Key X - Zoom in <br/>
 Key Q - Reset the Camera <br/>
 Key C - Clear Screen <br/>
+
+Thanks to the github OggyP/gravitySim for the huge help in our project
