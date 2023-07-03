@@ -26,4 +26,4 @@ Thanks to the github OggyP/gravitySim for the huge help in our project.
 
 ![image](https://github.com/ashim-karki/Planetary-Simulation/assets/86644466/e682ee59-e0f4-4281-8ce3-eb5f3be030e3)
 
-![image](https://github.com/ashim-karki/Planetary-Simulation/assets/86644466/c63fdd35-8787-4b3a-8a77-90bf2d8c34d6)
+![Desktop Screenshot 2023 07 03 - 20 25 03 53](https://github.com/ashim-karki/Planetary-Simulation/assets/86644466/e75089ba-f316-461e-a395-3edd4c50a0f7)
